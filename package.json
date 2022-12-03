@@ -21,8 +21,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm:cli": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -f ./ormconfig-migrations.ts",
-    "migration:generate": "yarn ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -d src/database/datasource.ts migration:generate db/migrations/",
-    "migration:create": "yarn ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -d src/database/datasource.ts migration:create db/migrations/",
+    "migration:generate": "yarn ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -d src/database/datasource.ts migration:generate",
+    "migration:create": "yarn ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -d src/database/datasource.ts migration:create",
     "migration:run": "yarn ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -d src/database/datasource.ts migration:run"
   },
   "dependencies": {
