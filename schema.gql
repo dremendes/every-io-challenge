@@ -1,0 +1,68 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Task {
+  """UUID"""
+  id: String!
+
+  """Title"""
+  title: String!
+
+  """Description"""
+  description: String
+
+  """Current Task status"""
+  status: TaskStatus!
+}
+
+"""Supported Task statuses"""
+enum TaskStatus {
+  """To Do"""
+  Todo
+
+  """In Progress"""
+  Inprogress
+
+  """Done"""
+  Done
+
+  """Archived"""
+  Archived
+}
+
+type Query {
+  tasks: [Task!]
+  task(id: String!): Task
+}
+
+type Mutation {
+  createTask(createTaskInput: CreateTaskInput!): Task!
+  updateTask(updateTaskInput: UpdateTaskInput!): Task
+  removeTask(id: String!): Boolean
+}
+
+input CreateTaskInput {
+  """Title"""
+  title: String!
+
+  """Description"""
+  description: String!
+
+  """Current Task status"""
+  status: TaskStatus!
+}
+
+input UpdateTaskInput {
+  """Id"""
+  id: ID!
+
+  """Title"""
+  title: String
+
+  """Description"""
+  description: String
+
+  """Current Status"""
+  status: TaskStatus
+}
