@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { TaskResolver } from './task.resolver';
 import { TaskService } from './task.service';
 
 describe('TaskService', () => {
@@ -6,7 +7,13 @@ describe('TaskService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [TaskService],
+      providers: [
+        TaskService,
+        {
+          provide: TaskService,
+          useValue: { Symbol: jest.fn() },
+        },
+      ],
     }).compile();
 
     service = module.get<TaskService>(TaskService);
