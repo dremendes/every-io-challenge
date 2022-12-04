@@ -4,7 +4,6 @@ import { CreateTaskInput } from './dto/create-task.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-
 @Injectable()
 export class TaskService {
   constructor(
@@ -17,11 +16,11 @@ export class TaskService {
     return this.taskRepository.save(result);
   }
 
-  findAll(): Promise<Task[]> {
+  async findAll(): Promise<Task[]> {
     return this.taskRepository.find();
   }
 
-  findOne(id: string): Promise<Task> {
+  async findOne(id: string): Promise<Task> {
     return this.taskRepository.findOneBy({ id });
   }
 
@@ -32,6 +31,6 @@ export class TaskService {
 
   async remove(id: string): Promise<boolean> {
     const result = await this.taskRepository.delete(id);
-    return result.affected === 1.;
+    return result.affected === 1;
   }
 }

@@ -6,7 +6,7 @@ export enum TaskStatus {
   Inprogress = 'In Progress',
   Done = 'Done',
   Archived = 'Archived',
-};
+}
 
 registerEnumType(TaskStatus, {
   name: 'TaskStatus',
@@ -33,7 +33,7 @@ export class Task {
   @Field(() => String, { description: 'UUID' })
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  
+
   @Field(() => String, { description: 'Title' })
   @Column()
   title: string;
