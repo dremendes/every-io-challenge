@@ -1,11 +1,11 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { TaskModule } from './task/task.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-const dotenv = require('dotenv');
+import * as dotenv from 'dotenv';
 
 dotenv.config({ path: '.env' });
 
@@ -23,10 +23,8 @@ const {
       envFilePath: '.env',
     }),
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        driver: require("pg"),
+      useFactory: () => ({
+        driver: require('pg'),
         type: 'postgres',
         host,
         port: parseInt(port),
@@ -50,6 +48,8 @@ const {
     TaskModule,
   ],
 })
-export class AppModule {cli: {
-  migrationsDir,
-}}
+export class AppModule {
+  cli: {
+    migrationsDir: string;
+  };
+}

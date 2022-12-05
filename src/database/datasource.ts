@@ -1,7 +1,6 @@
-import { join } from "path";
+import { join } from 'path';
 import { DataSource } from 'typeorm';
-
-const dotenv = require('dotenv');
+import * as dotenv from 'dotenv';
 
 dotenv.config({ path: '.env' });
 
@@ -15,15 +14,13 @@ const {
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  driver: require("pg"), 
+  driver: require('pg'),
   host,
   port: parseInt(port),
   database,
   username,
   password,
-  entities: [
-    join(process.cwd(), 'src/**/entities/*.entity.ts')
-  ],
+  entities: [join(process.cwd(), 'src/**/entities/*.entity.ts')],
   synchronize: false,
   migrations: ['./db/migrations/*.ts'],
   migrationsTransactionMode: 'all',
