@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="13" failures="0" errors="0" time="4.608">
-  <testsuite name="TaskService" errors="0" failures="0" skipped="0" timestamp="2022-12-04T23:50:44" time="3.27" tests="6">
-    <testcase classname="TaskService should be defined" name="TaskService should be defined" time="0.009">
+<testsuites name="jest tests" tests="13" failures="0" errors="0" time="5.017">
+  <testsuite name="TaskService" errors="0" failures="0" skipped="0" timestamp="2022-12-04T23:59:02" time="3.68" tests="6">
+    <testcase classname="TaskService should be defined" name="TaskService should be defined" time="0.01">
     </testcase>
-    <testcase classname="TaskService create should create a new task and save it to the repository" name="TaskService create should create a new task and save it to the repository" time="0.006">
+    <testcase classname="TaskService create should create a new task and save it to the repository" name="TaskService create should create a new task and save it to the repository" time="0.023">
     </testcase>
-    <testcase classname="TaskService update should update a task and save it to the repository" name="TaskService update should update a task and save it to the repository" time="0.002">
+    <testcase classname="TaskService update should update a task and save it to the repository" name="TaskService update should update a task and save it to the repository" time="0.003">
     </testcase>
-    <testcase classname="TaskService remove should remove a task and save it to the repository" name="TaskService remove should remove a task and save it to the repository" time="0.002">
+    <testcase classname="TaskService remove should remove a task and save it to the repository" name="TaskService remove should remove a task and save it to the repository" time="0.003">
     </testcase>
     <testcase classname="TaskService findAll should return all tasks from the repository" name="TaskService findAll should return all tasks from the repository" time="0.002">
     </testcase>
-    <testcase classname="TaskService findOne should return a single task from the repository by its id" name="TaskService findOne should return a single task from the repository by its id" time="0.003">
+    <testcase classname="TaskService findOne should return a single task from the repository by its id" name="TaskService findOne should return a single task from the repository by its id" time="0.007">
     </testcase>
   </testsuite>
-  <testsuite name="TaskResolver" errors="0" failures="0" skipped="0" timestamp="2022-12-04T23:50:48" time="0.827" tests="6">
+  <testsuite name="TaskResolver" errors="0" failures="0" skipped="0" timestamp="2022-12-04T23:59:05" time="0.832" tests="6">
     <testcase classname="TaskResolver should be defined" name="TaskResolver should be defined" time="0.009">
     </testcase>
     <testcase classname="TaskResolver createTask should call create on the task service and return the result" name="TaskResolver createTask should call create on the task service and return the result" time="0.003">
@@ -25,11 +25,11 @@
     </testcase>
     <testcase classname="TaskResolver findAll should call findAll on the task service and return the result" name="TaskResolver findAll should call findAll on the task service and return the result" time="0.002">
     </testcase>
-    <testcase classname="TaskResolver findOne should call findOne on the task service and return the result" name="TaskResolver findOne should call findOne on the task service and return the result" time="0.003">
+    <testcase classname="TaskResolver findOne should call findOne on the task service and return the result" name="TaskResolver findOne should call findOne on the task service and return the result" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="AppController" errors="0" failures="0" skipped="0" timestamp="2022-12-04T23:50:48" time="0.395" tests="1">
-    <testcase classname="AppController root should return &quot;Hello World!&quot;" name="AppController root should return &quot;Hello World!&quot;" time="0.008">
+  <testsuite name="AppController" errors="0" failures="0" skipped="0" timestamp="2022-12-04T23:59:06" time="0.399" tests="1">
+    <testcase classname="AppController root should return &quot;Hello World!&quot;" name="AppController root should return &quot;Hello World!&quot;" time="0.009">
     </testcase>
   </testsuite>
 </testsuites>

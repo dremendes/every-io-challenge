@@ -5,7 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TaskModule } from './task/task.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import dotenv = require('dotenv');
+import * as dotenv from 'dotenv';
 
 dotenv.config({ path: '.env' });
 
