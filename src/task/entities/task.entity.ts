@@ -1,5 +1,12 @@
 import { ObjectType, Field, registerEnumType } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 export enum TaskStatus {
   Todo = 'To Do',
@@ -47,4 +54,12 @@ export class Task {
   @Field(() => TaskStatus, { description: 'Current Task status' })
   @Column({ type: 'enum', enum: TaskStatus })
   status: TaskStatus;
+
+  @Field(() => User, {
+    description: 'User that owns this Task',
+    nullable: true,
+  })
+  @ManyToOne(() => User, (user: User) => user.tasks)
+  @JoinColumn()
+  user?: User;
 }

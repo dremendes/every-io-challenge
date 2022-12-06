@@ -2,6 +2,32 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type User {
+  """UUID"""
+  id: String!
+
+  """Username"""
+  username: String!
+
+  """Password"""
+  password: String
+
+  """User Permissions"""
+  permissions: [Permission!]!
+
+  """List of User Tasks"""
+  tasks: Task
+}
+
+"""Permissions an User can have"""
+enum Permission {
+  """User that can CRUD ALL tasks"""
+  ADMIN
+
+  """User that can only CRUD its own tasks"""
+  USER
+}
+
 type Task {
   """UUID"""
   id: String!
@@ -14,6 +40,9 @@ type Task {
 
   """Current Task status"""
   status: TaskStatus!
+
+  """User that owns this Task"""
+  user: User
 }
 
 """Supported Task statuses"""
@@ -31,23 +60,13 @@ enum TaskStatus {
   Archived
 }
 
-type User {
-  """UUID"""
-  id: String!
-
-  """Username"""
-  username: String!
-
-  """Password"""
-  password: String
-}
-
 type AccesToken {
   """Access Token"""
   access_token: String
 }
 
 type Query {
+  myTasks: [Task!]
   tasks: [Task!]
   task(id: String!): Task
   login(username: String!, password: String!): AccesToken
@@ -58,8 +77,11 @@ type Query {
 
 type Mutation {
   createTask(createTaskInput: CreateTaskInput!): Task!
+  createTaskForUser(createTaskInput: CreateTaskInput!): Task!
   updateTask(updateTaskInput: UpdateTaskInput!): Task
+  updateAnyTask(updateTaskInput: UpdateOthersTaskInput!): Task
   removeTask(id: String!): Boolean
+  removeAnyTask(id: String!): Boolean
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: String!): User!
@@ -90,12 +112,32 @@ input UpdateTaskInput {
   status: TaskStatus
 }
 
+input UpdateOthersTaskInput {
+  """Id"""
+  id: ID!
+
+  """Title"""
+  title: String
+
+  """Description"""
+  description: String
+
+  """Current Status"""
+  status: TaskStatus
+
+  """User to own the Task"""
+  userId: String!
+}
+
 input CreateUserInput {
   """Username"""
   username: String!
 
   """Password"""
   password: String!
+
+  """User Permissions"""
+  permissions: Permission!
 }
 
 input UpdateUserInput {
@@ -107,4 +149,7 @@ input UpdateUserInput {
 
   """Password"""
   password: String!
+
+  """User Permissions"""
+  permissions: Permission!
 }

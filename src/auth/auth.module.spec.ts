@@ -2,6 +2,8 @@
 import { AuthModule } from './auth.module';
 import { AuthService } from './auth.service';
 import { Test } from '@nestjs/testing';
+import { TaskModule } from '../task/task.module';
+import { TaskService } from '../task/task.service';
 
 describe('AuthModule', () => {
   let authModule: AuthModule;
@@ -27,6 +29,8 @@ describe('AuthModule', () => {
       providers: [
         AuthModule,
         { provide: AuthService, useFactory: repositoryMockFactory },
+        TaskModule,
+        { provide: TaskService, useFactory: repositoryMockFactory },
       ],
     }).compile();
 

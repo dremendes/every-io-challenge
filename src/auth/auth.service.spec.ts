@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { TaskService } from '../task/task.service';
 import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
@@ -10,6 +11,11 @@ describe('AuthService', () => {
         AuthService,
         {
           provide: AuthService,
+          useValue: { Symbol: jest.fn() },
+        },
+        TaskService,
+        {
+          provide: TaskService,
           useValue: { Symbol: jest.fn() },
         },
       ],

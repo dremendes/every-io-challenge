@@ -49,6 +49,7 @@ const {
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
       playground: true,
+      context: ({ req }) => ({ req }),
     }),
     TaskModule,
     AuthModule,

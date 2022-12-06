@@ -3,6 +3,7 @@ import { UserResolver } from './user.resolver';
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { Any, Repository } from 'typeorm';
+import { Permissions } from '../claims-based-authorization/enums/permissions.enum';
 
 const mockRepository = {
   create: jest.fn(),
@@ -45,11 +46,13 @@ describe('UserResolver', () => {
       const createUserInput = {
         username: 'user-test',
         password: 'test-password',
+        permissions: Permissions.USER,
       };
       const user = {
         id: '1',
         username: 'user-test',
         password: 'test-password',
+        permissions: Permissions.USER,
       };
 
       (service.create as jest.Mock).mockResolvedValue(user);
@@ -65,12 +68,14 @@ describe('UserResolver', () => {
         id: 'a675b451-f150-4b8c-8197-bee6df983fa7',
         username: 'user-test',
         password: 'test-password - updated',
+        permissions: Permissions.USER,
       };
 
       const user = {
         id: Any<string>,
         username: 'user-test',
         password: 'test-password - updated',
+        permissions: Permissions.USER,
       };
 
       (service.update as jest.Mock).mockResolvedValue(user);
@@ -122,6 +127,7 @@ describe('UserResolver', () => {
         id: '361354a2-c83a-4b4d-bfa2-eb6cabe38311',
         username: 'user-test',
         password: 'test-password',
+        permissions: Permissions.USER,
       };
 
       (service.findById as jest.Mock).mockResolvedValue(user);

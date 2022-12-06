@@ -10,7 +10,6 @@ import { UseGuards } from '@nestjs/common';
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
-  @UseGuards(GqlAuthGuard)
   @Mutation(() => User)
   createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     return this.userService.create(createUserInput);

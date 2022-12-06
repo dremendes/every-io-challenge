@@ -3,6 +3,8 @@ import { TaskResolver } from './task.resolver';
 import { TaskService } from './task.service';
 import { Task, TaskStatus } from './entities/task.entity';
 import { Any, Repository } from 'typeorm';
+import { UserService } from '../users/user.service';
+import { Permissions } from '../claims-based-authorization/enums/permissions.enum';
 
 const mockRepository = {
   create: jest.fn(),
@@ -29,6 +31,8 @@ describe('TaskResolver', () => {
       providers: [
         TaskResolver,
         { provide: TaskService, useFactory: repositoryMockFactory },
+        UserService,
+        { provide: UserService, useValue: { Symbol: jest.fn() } },
       ],
     }).compile();
 
@@ -52,12 +56,24 @@ describe('TaskResolver', () => {
         title: 'Test Task',
         description: 'Test Description',
         status: TaskStatus.Todo,
+        user: {
+          id: '8115baf5-aed1-4f0e-8aa2-5b08a700211b',
+          name: 'test-user',
+          permissions: Permissions.USER,
+        },
+      };
+
+      const req = {
+        user: { userData: { userId: '8115baf5-aed1-4f0e-8aa2-5b08a700211b' } },
       };
 
       (service.create as jest.Mock).mockResolvedValue(task);
 
-      expect(await resolver.createTask(createTaskInput)).toEqual(task);
-      expect(service.create).toHaveBeenCalledWith(createTaskInput);
+      expect(await resolver.createTask(createTaskInput, req)).toEqual(task);
+      expect(service.create).toHaveBeenCalledWith(
+        createTaskInput,
+        '8115baf5-aed1-4f0e-8aa2-5b08a700211b',
+      );
     });
   });
 
@@ -75,11 +91,20 @@ describe('TaskResolver', () => {
         title: 'Test Task',
         description: 'Test Description - updated',
         status: TaskStatus.Todo,
+        user: {
+          id: '8115baf5-aed1-4f0e-8aa2-5b08a700211b',
+          name: 'test-user',
+          permissions: ['can_view_own_tasks'],
+        },
+      };
+
+      const req = {
+        user: { userData: { userId: '8115baf5-aed1-4f0e-8aa2-5b08a700211b' } },
       };
 
       (service.update as jest.Mock).mockResolvedValue(task);
 
-      expect(await resolver.updateTask(updateTaskInput)).toBe(task);
+      expect(await resolver.updateTask(updateTaskInput, req)).toBe(task);
     });
   });
 
@@ -87,8 +112,12 @@ describe('TaskResolver', () => {
     it('should remove a task and save it to the repository', async () => {
       (service.remove as jest.Mock).mockResolvedValue(true);
 
+      const req = {
+        user: { userData: { userId: '8115baf5-aed1-4f0e-8aa2-5b08a700211b' } },
+      };
+
       expect(
-        await resolver.removeTask('a675b451-f150-4b8c-8197-bee6df983fa7'),
+        await resolver.removeTask('a675b451-f150-4b8c-8197-bee6df983fa7', req),
       ).toBe(true);
     });
   });
@@ -132,10 +161,14 @@ describe('TaskResolver', () => {
         status: TaskStatus.Todo,
       };
 
+      const req = {
+        user: { userData: { userId: '8115baf5-aed1-4f0e-8aa2-5b08a700211b' } },
+      };
+
       (service.findOne as jest.Mock).mockResolvedValue(task);
 
       expect(
-        await resolver.findOne('361354a2-c83a-4b4d-bfa2-eb6cabe38311'),
+        await resolver.findOne('361354a2-c83a-4b4d-bfa2-eb6cabe38311', req),
       ).toEqual(task);
     });
   });
