@@ -3,6 +3,9 @@ import { TaskService } from './task.service';
 import { Task, TaskStatus } from './entities/task.entity';
 import { Any, Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { UserService } from '../users/user.service';
+import { User } from '../users/entities/user.entity';
+import { Permissions } from '../claims-based-authorization/enums/permissions.enum';
 
 const mockRepository = {
   create: jest.fn(),
@@ -10,19 +13,26 @@ const mockRepository = {
   find: jest.fn(),
   findAll: jest.fn(),
   findOneBy: jest.fn(),
+  findBy: jest.fn(),
   findOne: jest.fn(),
   update: jest.fn(),
   delete: jest.fn(),
 };
 
 // @ts-ignore
-export const repositoryMockFactory: () => Task<Repository<any>> = jest.fn(
+export const repositoryMockFactory: () => Task<Repository<Task>> = jest.fn(
+  () => mockRepository,
+);
+
+// @ts-ignore
+export const repositoryMockFactory: () => User<Repository<User>> = jest.fn(
   () => mockRepository,
 );
 
 describe('TaskService', () => {
   let service: TaskService;
-  let repository: Repository<Task>;
+  let taskRepository: Repository<Task>;
+  let userRepository: Repository<User>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -32,11 +42,17 @@ describe('TaskService', () => {
           provide: getRepositoryToken(Task),
           useFactory: repositoryMockFactory,
         },
+        UserService,
+        {
+          provide: getRepositoryToken(User),
+          useFactory: repositoryMockFactory,
+        },
       ],
     }).compile();
 
     service = module.get<TaskService>(TaskService);
-    repository = module.get(getRepositoryToken(Task));
+    taskRepository = module.get(getRepositoryToken(Task));
+    userRepository = module.get(getRepositoryToken(User));
   });
 
   it('should be defined', () => {
@@ -55,18 +71,28 @@ describe('TaskService', () => {
         title: 'Test Task',
         description: 'Test Description',
         status: TaskStatus.Todo,
+        user: {
+          id: '8115baf5-aed1-4f0e-8aa2-5b08a700211b',
+          username: 'test-user',
+          permissions: Permissions.USER,
+        },
       };
 
-      const repoCreateSpy = jest
-        .spyOn(repository, 'create')
+      const taskRepoCreateSpy = jest
+        .spyOn(taskRepository, 'create')
         .mockImplementation(() => task as any);
-      const repoSaveSpy = jest
-        .spyOn(repository, 'save')
+      const taskRepoSaveSpy = jest
+        .spyOn(taskRepository, 'save')
         .mockImplementation(() => task as any);
 
-      expect(await service.create(createTaskInput)).toBe(task);
-      expect(repoCreateSpy).toHaveBeenCalledWith(createTaskInput);
-      expect(repoSaveSpy).toHaveBeenCalledWith(task);
+      expect(
+        await service.create(
+          createTaskInput,
+          '8115baf5-aed1-4f0e-8aa2-5b08a700211b',
+        ),
+      ).toBe(task);
+      expect(taskRepoCreateSpy).toHaveBeenCalledWith(createTaskInput);
+      expect(taskRepoSaveSpy).toHaveBeenCalledWith(task);
     });
   });
 
@@ -79,33 +105,75 @@ describe('TaskService', () => {
         status: TaskStatus.Todo,
       };
 
-      const repoUpdateSpy = jest
-        .spyOn(repository, 'update')
-        .mockImplementation(() => true as any);
-      const repoFindOneBySpy = jest
-        .spyOn(repository, 'findOneBy')
-        .mockImplementation(() => updateTaskInput as any);
+      const user = {
+        id: '8115baf5-aed1-4f0e-8aa2-5b08a700211b',
+        username: 'test-user',
+        permissions: Permissions.USER,
+      } as any;
 
-      expect(await service.update(updateTaskInput.id, updateTaskInput)).toBe(
-        updateTaskInput,
-      );
-      expect(repoUpdateSpy).toHaveBeenCalledWith(
-        updateTaskInput.id,
-        updateTaskInput,
-      );
-      expect(repoFindOneBySpy).toHaveBeenCalledWith({ id: updateTaskInput.id });
+      const taskRepoFindOneBySpy = jest
+        .spyOn(userRepository, 'findOneBy')
+        .mockImplementation(() => user as any);
+
+      const taskRepoUpdateSpy = jest
+        .spyOn(taskRepository, 'update')
+        .mockImplementation(() => true as any);
+
+      expect(
+        await service.update(updateTaskInput.id, updateTaskInput, user),
+      ).toBe(user);
+
+      expect(taskRepoUpdateSpy).toHaveBeenCalledWith(updateTaskInput.id, {
+        ...updateTaskInput,
+        user,
+      });
+      expect(taskRepoFindOneBySpy).toHaveBeenCalledWith({
+        id: updateTaskInput.id,
+      });
     });
   });
 
   describe('remove', () => {
     it('should remove a task and save it to the repository', async () => {
-      const repoDeleteSpy = jest
-        .spyOn(repository, 'delete')
-        .mockImplementation(() => ({ affected: 1 } as any));
+      const tasksArray = [
+        {
+          id: 'a675b451-f150-4b8c-8197-bee6df983fa7',
+          title: 'Test Task',
+          description: 'Test Description',
+          status: TaskStatus.Todo,
+          user: {
+            id: '8115baf5-aed1-4f0e-8aa2-5b08a700211b',
+            username: 'test-user',
+            permissions: Permissions.USER,
+          },
+        },
+      ];
+
+      const userRepoDeleteSpy = jest
+        .spyOn(userRepository, 'findOneBy')
+        .mockResolvedValue(tasksArray[0].user as any);
+
+      const taskRepoFindBySpy = jest
+        .spyOn(taskRepository, 'findBy')
+        .mockResolvedValue(tasksArray as any);
       const taskId = 'a675b451-f150-4b8c-8197-bee6df983fa7';
 
-      expect(await service.remove(taskId)).toBe(true);
-      expect(repoDeleteSpy).toHaveBeenCalledWith(taskId);
+      const taskRepoDeleteSpy = jest
+        .spyOn(taskRepository, 'delete')
+        .mockResolvedValue({ affected: 1 } as any);
+
+      expect(
+        await service.remove(taskId, '8115baf5-aed1-4f0e-8aa2-5b08a700211b'),
+      ).toBe(true);
+
+      expect(userRepoDeleteSpy).toHaveBeenCalledWith({
+        id: tasksArray[0].user.id,
+      });
+      expect(taskRepoFindBySpy).toHaveBeenCalledWith({
+        id: taskId,
+        user: tasksArray[0].user,
+      });
+      expect(taskRepoDeleteSpy).toHaveBeenCalledWith(taskId);
     });
   });
 
@@ -133,7 +201,7 @@ describe('TaskService', () => {
       ];
 
       const repoFindSpy = jest
-        .spyOn(repository, 'find')
+        .spyOn(taskRepository, 'find')
         .mockImplementation(() => tasks as any);
 
       expect(await service.findAll()).toBe(tasks);
@@ -150,10 +218,10 @@ describe('TaskService', () => {
         status: TaskStatus.Todo,
       };
 
-      await service.create(task);
+      await service.create(task, '8115baf5-aed1-4f0e-8aa2-5b08a700211b');
 
       const repoFindOneBySpy = jest
-        .spyOn(repository, 'findOneBy')
+        .spyOn(taskRepository, 'findOneBy')
         .mockImplementation(() => task as any);
 
       expect(await service.findOne(task.id)).toBe(task);

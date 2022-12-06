@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { Any, Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { Permissions } from '../claims-based-authorization/enums/permissions.enum';
 
 const mockRepository = {
   create: jest.fn(),
@@ -48,6 +49,7 @@ describe('UserService', () => {
       const createUserInput = {
         username: 'test-user',
         password: 'password',
+        permissions: Permissions.USER,
       };
       const User = {
         id: Any<string>,
@@ -108,7 +110,7 @@ describe('UserService', () => {
 
   describe('findAll', () => {
     it('should return all Users from the repository', async () => {
-      const Users = [
+      const users = [
         {
           id: Any<string>,
           username: 'test-user 1',
@@ -128,9 +130,9 @@ describe('UserService', () => {
 
       const repoFindSpy = jest
         .spyOn(repository, 'find')
-        .mockImplementation(() => Users as any);
+        .mockImplementation(() => users as any);
 
-      expect(await service.findAll()).toBe(Users);
+      expect(await service.findAll()).toBe(users);
       expect(repoFindSpy).toHaveBeenCalledWith();
     });
   });
@@ -141,6 +143,7 @@ describe('UserService', () => {
         id: '361354a2-c83a-4b4d-bfa2-eb6cabe38311',
         username: 'test-user',
         password: 'password',
+        permissions: Permissions.USER,
       };
 
       await service.create(user);
@@ -162,6 +165,7 @@ describe('UserService', () => {
         id: '361354a2-c83a-4b4d-bfa2-eb6cabe38311',
         username: 'test-user',
         password: 'password',
+        permissions: Permissions.USER,
       };
 
       await service.create(user);
