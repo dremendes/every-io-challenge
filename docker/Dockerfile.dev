@@ -1,0 +1,28 @@
+FROM node:18-alpine
+
+RUN apk update && apk add bash
+
+RUN mkdir -p /home/node/app/node_modules
+
+ARG PORT
+ARG NODE_ENV
+
+ENV NODE_ENV=$NODE_ENV
+
+WORKDIR /home/node/app
+COPY . .
+
+RUN yarn add global @nestjs/cli
+RUN yarn
+RUN yarn build
+
+RUN rm -rf db src
+RUN ls -la
+
+RUN chown -R node:node /home/node/app
+
+USER node
+
+EXPOSE $PORT
+
+CMD [ "yarn", "start:prod" ]

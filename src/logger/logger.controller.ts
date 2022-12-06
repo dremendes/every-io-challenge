@@ -1,5 +1,12 @@
 import * as fs from 'fs';
-import { Controller, Get, Header, Param, Res, StreamableFile } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Header,
+  Param,
+  Res,
+  StreamableFile,
+} from '@nestjs/common';
 import { join } from 'path';
 import { Tail } from 'tail';
 import { LoggerService } from './logger.service';

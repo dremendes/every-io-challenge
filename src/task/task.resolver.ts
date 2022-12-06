@@ -11,7 +11,6 @@ import { Permissions } from '../claims-based-authorization/enums/permissions.enu
 import { RequirePermissions } from '../claims-based-authorization/require-permissions.decorator';
 import { RequirePermissionsGuard } from '../claims-based-authorization/require-permisions.guard';
 
-
 @Resolver(() => Task)
 export class TaskResolver {
   constructor(private readonly taskService: TaskService) {}
