@@ -15,7 +15,10 @@ export class TaskService {
   ) {}
 
   async create(createTaskInput: CreateTaskInput, userId: string) {
-    if (userId === null) return this.taskRepository.create(createTaskInput);
+    if (userId === null) {
+      const result = await this.taskRepository.create(createTaskInput);
+      return this.taskRepository.save(result);
+    }
 
     const user: User = await this.userRepository.findOneBy({ id: userId });
     const result = this.taskRepository.create({ ...createTaskInput, user });
