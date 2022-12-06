@@ -10,6 +10,7 @@ import { UserModule } from './users/user.module';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
+import { LoggerModule } from './logger/logger.module';
 import * as dotenv from 'dotenv';
 
 dotenv.config({ path: '.env' });
@@ -54,6 +55,7 @@ const {
     TaskModule,
     AuthModule,
     UserModule,
+    LoggerModule,
   ],
   providers: [AppService, AuthService, JwtService],
 })

@@ -62,12 +62,14 @@ describe('TaskService', () => {
   describe('create', () => {
     it('should create a new task and save it to the repository', async () => {
       const createTaskInput = {
+        id: 'a675b451-f150-4b8c-8197-bee6df983fa7',
         title: 'Test Task',
         description: 'Test Description',
         status: TaskStatus.Todo,
       };
+
       const task = {
-        id: Any<string>,
+        id: 'a675b451-f150-4b8c-8197-bee6df983fa7',
         title: 'Test Task',
         description: 'Test Description',
         status: TaskStatus.Todo,
@@ -78,9 +80,14 @@ describe('TaskService', () => {
         },
       };
 
+      const userRepoFindOneBySpy = jest
+        .spyOn(userRepository, 'findOneBy')
+        .mockImplementation(() => task.user as any);
+
       const taskRepoCreateSpy = jest
         .spyOn(taskRepository, 'create')
         .mockImplementation(() => task as any);
+
       const taskRepoSaveSpy = jest
         .spyOn(taskRepository, 'save')
         .mockImplementation(() => task as any);
@@ -90,9 +97,10 @@ describe('TaskService', () => {
           createTaskInput,
           '8115baf5-aed1-4f0e-8aa2-5b08a700211b',
         ),
-      ).toBe(task);
-      expect(taskRepoCreateSpy).toHaveBeenCalledWith(createTaskInput);
+      ).toEqual({ ...task, user: task.user });
+      expect(taskRepoCreateSpy).toHaveBeenCalledWith(task);
       expect(taskRepoSaveSpy).toHaveBeenCalledWith(task);
+      expect(userRepoFindOneBySpy).toHaveBeenCalledWith({ id: task.user.id });
     });
   });
 

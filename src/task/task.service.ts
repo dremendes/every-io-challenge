@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { Task } from './entities/task.entity';
+import { CreateTaskAdminInput } from './dto/create-task-admin.input';
 import { CreateTaskInput } from './dto/create-task.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
+import { LoggerFactory } from '../logger';
 
 @Injectable()
 export class TaskService {
+  private logger: any = LoggerFactory.getInstance();
   constructor(
     @InjectRepository(Task)
     private taskRepository: Repository<Task>,
@@ -14,14 +17,24 @@ export class TaskService {
     private userRepository: Repository<User>,
   ) {}
 
-  async create(createTaskInput: CreateTaskInput, userId: string) {
+  async create(createTaskInput: CreateTaskInput | CreateTaskAdminInput, userId: string) {
     if (userId === null) {
       const result = await this.taskRepository.create(createTaskInput);
+
+      this.logger.info(
+        `Task with title ${createTaskInput.title} was created by admin`,
+      );
+
       return this.taskRepository.save(result);
     }
 
     const user: User = await this.userRepository.findOneBy({ id: userId });
     const result = this.taskRepository.create({ ...createTaskInput, user });
+
+    this.logger.info(
+      `Task with title ${createTaskInput.title} was created by user`,
+    );
+
     return this.taskRepository.save(result);
   }
 
@@ -67,9 +80,15 @@ export class TaskService {
   ): Promise<Task> {
     if (userId === null) {
       await this.taskRepository.update(id, updateTaskInput);
+      this.logger.info(
+        `Task with title ${updateTaskInput.title} was updated by user`,
+      );
     } else {
       const user: User = await this.userRepository.findOneBy({ id: userId });
       await this.taskRepository.update(id, { ...updateTaskInput, user });
+      this.logger.info(
+        `Task with title ${updateTaskInput.title} was updated by user`,
+      );
     }
     return this.taskRepository.findOneBy({ id });
   }
@@ -79,6 +98,7 @@ export class TaskService {
 
     if (userId === null) {
       result = await this.taskRepository.delete(id);
+      this.logger.info(`Task with id ${id} was removed by an Admin User`);
     } else {
       const user: User = await this.userRepository.findOneBy({ id: userId });
       const tasks: Task[] = await this.taskRepository.findBy({
@@ -90,6 +110,13 @@ export class TaskService {
       }
     }
 
-    return result?.affected === 1;
+    const affected = result?.affected === 1;
+    this.logger.info(
+      `Task with id ${id} was ${affected ? 'NOT' : ''} removed by ${
+        userId === null ? 'an ADMIN' : userId
+      } User`,
+    );
+
+    return affected;
   }
 }
