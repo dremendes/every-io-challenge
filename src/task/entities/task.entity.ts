@@ -30,8 +30,10 @@ registerEnumType(TaskStatus, {
 @Entity()
 @ObjectType()
 export class Task {
-  @Field(() => String, { description: 'UUID' })
-  @PrimaryGeneratedColumn('uuid')
+  @Field(() => String, { description: 'UUID', nullable: false })
+  @PrimaryGeneratedColumn('uuid', {
+    primaryKeyConstraintName: 'PRIMARY_KEY_TASK',
+  })
   id: string;
 
   @Field(() => String, { description: 'Title' })

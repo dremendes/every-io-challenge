@@ -5,6 +5,11 @@ import { ConfigModule } from '@nestjs/config';
 import { TaskModule } from './task/task.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './users/user.module';
+import { AppService } from './app.service';
+import { AuthService } from './auth/auth.service';
+import { JwtService } from '@nestjs/jwt';
 import * as dotenv from 'dotenv';
 
 dotenv.config({ path: '.env' });
@@ -46,7 +51,10 @@ const {
       playground: true,
     }),
     TaskModule,
+    AuthModule,
+    UserModule,
   ],
+  providers: [AppService, AuthService, JwtService],
 })
 export class AppModule {
   cli: {
