@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="29" failures="0" errors="0" time="13.931">
-  <testsuite name="UserModule" errors="0" failures="0" skipped="0" timestamp="2022-12-06T18:31:53" time="4.131" tests="1">
-    <testcase classname="UserModule UsersModule should be defined" name="UserModule UsersModule should be defined" time="0.009">
-    </testcase>
-  </testsuite>
-  <testsuite name="AuthModule" errors="0" failures="0" skipped="0" timestamp="2022-12-06T18:31:57" time="1.349" tests="1">
-    <testcase classname="AuthModule AuthModule should be defined" name="AuthModule AuthModule should be defined" time="0.012">
-    </testcase>
-  </testsuite>
-  <testsuite name="TaskService" errors="0" failures="0" skipped="0" timestamp="2022-12-06T18:31:58" time="1.54" tests="6">
+<testsuites name="jest tests" tests="29" failures="0" errors="0" time="11.628">
+  <testsuite name="TaskService" errors="0" failures="0" skipped="0" timestamp="2022-12-06T20:29:57" time="3.953" tests="6">
     <testcase classname="TaskService should be defined" name="TaskService should be defined" time="0.01">
     </testcase>
     <testcase classname="TaskService create should create a new task and save it to the repository" name="TaskService create should create a new task and save it to the repository" time="0.004">
@@ -17,61 +9,69 @@
     </testcase>
     <testcase classname="TaskService remove should remove a task and save it to the repository" name="TaskService remove should remove a task and save it to the repository" time="0.003">
     </testcase>
-    <testcase classname="TaskService findAll should return all tasks from the repository" name="TaskService findAll should return all tasks from the repository" time="0.003">
+    <testcase classname="TaskService findAll should return all tasks from the repository" name="TaskService findAll should return all tasks from the repository" time="0.002">
     </testcase>
     <testcase classname="TaskService findOne should return a single task from the repository by its id" name="TaskService findOne should return a single task from the repository by its id" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="UserService" errors="0" failures="0" skipped="0" timestamp="2022-12-06T18:32:00" time="1.317" tests="7">
-    <testcase classname="UserService should be defined" name="UserService should be defined" time="0.01">
-    </testcase>
-    <testcase classname="UserService create should create a new User and save it to the repository" name="UserService create should create a new User and save it to the repository" time="0.003">
-    </testcase>
-    <testcase classname="UserService update should update a User and save it to the repository" name="UserService update should update a User and save it to the repository" time="0.003">
-    </testcase>
-    <testcase classname="UserService remove should remove a User and save it to the repository" name="UserService remove should remove a User and save it to the repository" time="0.003">
-    </testcase>
-    <testcase classname="UserService findAll should return all Users from the repository" name="UserService findAll should return all Users from the repository" time="0.004">
-    </testcase>
-    <testcase classname="UserService findByUsername should return a single User from the repository by its id" name="UserService findByUsername should return a single User from the repository by its id" time="0.006">
-    </testcase>
-    <testcase classname="UserService findById should return a single User from the repository by its id" name="UserService findById should return a single User from the repository by its id" time="0.002">
+  <testsuite name="AuthModule" errors="0" failures="0" skipped="0" timestamp="2022-12-06T20:30:01" time="1.201" tests="1">
+    <testcase classname="AuthModule AuthModule should be defined" name="AuthModule AuthModule should be defined" time="0.009">
     </testcase>
   </testsuite>
-  <testsuite name="UserResolver" errors="0" failures="0" skipped="0" timestamp="2022-12-06T18:32:01" time="1.219" tests="6">
-    <testcase classname="UserResolver should be defined" name="UserResolver should be defined" time="0.014">
-    </testcase>
-    <testcase classname="UserResolver createUser should call create on the User service and return the result" name="UserResolver createUser should call create on the User service and return the result" time="0.003">
-    </testcase>
-    <testcase classname="UserResolver update should update a User and save it to the repository" name="UserResolver update should update a User and save it to the repository" time="0.003">
-    </testcase>
-    <testcase classname="UserResolver remove should remove a User and save it to the repository" name="UserResolver remove should remove a User and save it to the repository" time="0.002">
-    </testcase>
-    <testcase classname="UserResolver findAll should call findAll on the User service and return the result" name="UserResolver findAll should call findAll on the User service and return the result" time="0.002">
-    </testcase>
-    <testcase classname="UserResolver findById should call findOne on the User service and return the result" name="UserResolver findById should call findOne on the User service and return the result" time="0.003">
+  <testsuite name="TaskModule" errors="0" failures="0" skipped="0" timestamp="2022-12-06T20:30:03" time="1.009" tests="1">
+    <testcase classname="TaskModule TaskModule should be defined" name="TaskModule TaskModule should be defined" time="0.009">
     </testcase>
   </testsuite>
-  <testsuite name="TaskResolver" errors="0" failures="0" skipped="0" timestamp="2022-12-06T18:32:03" time="1.237" tests="6">
-    <testcase classname="TaskResolver should be defined" name="TaskResolver should be defined" time="0.011">
+  <testsuite name="TaskResolver" errors="0" failures="0" skipped="0" timestamp="2022-12-06T20:30:04" time="1.091" tests="6">
+    <testcase classname="TaskResolver should be defined" name="TaskResolver should be defined" time="0.01">
     </testcase>
     <testcase classname="TaskResolver createTask should call create on the task service and return the result" name="TaskResolver createTask should call create on the task service and return the result" time="0.004">
     </testcase>
     <testcase classname="TaskResolver update should update a task and save it to the repository" name="TaskResolver update should update a task and save it to the repository" time="0.003">
     </testcase>
-    <testcase classname="TaskResolver remove should remove a task and save it to the repository" name="TaskResolver remove should remove a task and save it to the repository" time="0.003">
+    <testcase classname="TaskResolver remove should remove a task and save it to the repository" name="TaskResolver remove should remove a task and save it to the repository" time="0.002">
     </testcase>
     <testcase classname="TaskResolver findAll should call findAll on the task service and return the result" name="TaskResolver findAll should call findAll on the task service and return the result" time="0.002">
     </testcase>
-    <testcase classname="TaskResolver findOne should call findOne on the task service and return the result" name="TaskResolver findOne should call findOne on the task service and return the result" time="0.003">
+    <testcase classname="TaskResolver findOne should call findOne on the task service and return the result" name="TaskResolver findOne should call findOne on the task service and return the result" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="TaskModule" errors="0" failures="0" skipped="0" timestamp="2022-12-06T18:32:04" time="1.276" tests="1">
-    <testcase classname="TaskModule TaskModule should be defined" name="TaskModule TaskModule should be defined" time="0.009">
+  <testsuite name="UserModule" errors="0" failures="0" skipped="0" timestamp="2022-12-06T20:30:05" time="0.95" tests="1">
+    <testcase classname="UserModule UsersModule should be defined" name="UserModule UsersModule should be defined" time="0.008">
     </testcase>
   </testsuite>
-  <testsuite name="AuthService" errors="0" failures="0" skipped="0" timestamp="2022-12-06T18:32:05" time="1.466" tests="1">
-    <testcase classname="AuthService should be defined" name="AuthService should be defined" time="0.011">
+  <testsuite name="AuthService" errors="0" failures="0" skipped="0" timestamp="2022-12-06T20:30:06" time="1.13" tests="1">
+    <testcase classname="AuthService should be defined" name="AuthService should be defined" time="0.009">
+    </testcase>
+  </testsuite>
+  <testsuite name="UserResolver" errors="0" failures="0" skipped="0" timestamp="2022-12-06T20:30:07" time="0.978" tests="6">
+    <testcase classname="UserResolver should be defined" name="UserResolver should be defined" time="0.01">
+    </testcase>
+    <testcase classname="UserResolver createUser should call create on the User service and return the result" name="UserResolver createUser should call create on the User service and return the result" time="0.003">
+    </testcase>
+    <testcase classname="UserResolver update should update a User and save it to the repository" name="UserResolver update should update a User and save it to the repository" time="0.003">
+    </testcase>
+    <testcase classname="UserResolver remove should remove a User and save it to the repository" name="UserResolver remove should remove a User and save it to the repository" time="0.003">
+    </testcase>
+    <testcase classname="UserResolver findAll should call findAll on the User service and return the result" name="UserResolver findAll should call findAll on the User service and return the result" time="0.003">
+    </testcase>
+    <testcase classname="UserResolver findById should call findOne on the User service and return the result" name="UserResolver findById should call findOne on the User service and return the result" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="UserService" errors="0" failures="0" skipped="0" timestamp="2022-12-06T20:30:08" time="0.997" tests="7">
+    <testcase classname="UserService should be defined" name="UserService should be defined" time="0.009">
+    </testcase>
+    <testcase classname="UserService create should create a new User and save it to the repository" name="UserService create should create a new User and save it to the repository" time="0.003">
+    </testcase>
+    <testcase classname="UserService update should update a User and save it to the repository" name="UserService update should update a User and save it to the repository" time="0.002">
+    </testcase>
+    <testcase classname="UserService remove should remove a User and save it to the repository" name="UserService remove should remove a User and save it to the repository" time="0.003">
+    </testcase>
+    <testcase classname="UserService findAll should return all Users from the repository" name="UserService findAll should return all Users from the repository" time="0.002">
+    </testcase>
+    <testcase classname="UserService findByUsername should return a single User from the repository by its id" name="UserService findByUsername should return a single User from the repository by its id" time="0.005">
+    </testcase>
+    <testcase classname="UserService findById should return a single User from the repository by its id" name="UserService findById should return a single User from the repository by its id" time="0.002">
     </testcase>
   </testsuite>
 </testsuites>

@@ -2,7 +2,7 @@ import { InputType, Field } from '@nestjs/graphql';
 import { TaskStatus } from '../entities/task.entity';
 
 @InputType()
-export class CreateTaskInput {
+export class CreateTaskAdminInput {
   @Field(() => String, { description: 'Title' })
   title: string;
 
@@ -12,4 +12,6 @@ export class CreateTaskInput {
   @Field(() => TaskStatus, { description: 'Current Task status' })
   status: TaskStatus;
 
+  @Field(() => String, { description: 'User to own the Task', nullable: true })
+  userId?: string;
 }

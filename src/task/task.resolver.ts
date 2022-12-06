@@ -1,21 +1,23 @@
 import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
 import { TaskService } from './task.service';
 import { Task } from './entities/task.entity';
+import { CreateTaskAdminInput } from './dto/create-task-admin.input';
 import { CreateTaskInput } from './dto/create-task.input';
 import { UpdateTaskInput } from './dto/update-task.input';
+import { UpdateOthersTaskInput } from './dto/update-others-tasks.input';
 import { GqlAuthGuard } from '../auth/gql-auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { Permissions } from '../claims-based-authorization/enums/permissions.enum';
 import { RequirePermissions } from '../claims-based-authorization/require-permissions.decorator';
 import { RequirePermissionsGuard } from '../claims-based-authorization/require-permisions.guard';
-import { UpdateOthersTaskInput } from './dto/update-others-tasks.input';
+
 
 @Resolver(() => Task)
 export class TaskResolver {
   constructor(private readonly taskService: TaskService) {}
 
   @UseGuards(GqlAuthGuard, RequirePermissionsGuard)
-  @RequirePermissions(Permissions.USER)
+  @RequirePermissions(Permissions.USER, Permissions.ADMIN)
   @Mutation(() => Task)
   createTask(
     @Args('createTaskInput') createTaskInput: CreateTaskInput,
@@ -32,7 +34,7 @@ export class TaskResolver {
   }
 
   @UseGuards(GqlAuthGuard, RequirePermissionsGuard)
-  @RequirePermissions(Permissions.USER)
+  @RequirePermissions(Permissions.USER, Permissions.ADMIN)
   @Query(() => [Task], { name: 'myTasks', nullable: true })
   myTasks(@Context('req') req: any) {
     return this.taskService.findByUserId(req.user.userData.userId);
@@ -46,7 +48,7 @@ export class TaskResolver {
   }
 
   @UseGuards(GqlAuthGuard, RequirePermissionsGuard)
-  @RequirePermissions(Permissions.USER)
+  @RequirePermissions(Permissions.USER, Permissions.ADMIN)
   @Query(() => Task, { name: 'task', nullable: true })
   findOne(
     @Args('id', { type: () => String }) id: string,
@@ -63,7 +65,7 @@ export class TaskResolver {
   }
 
   @UseGuards(GqlAuthGuard, RequirePermissionsGuard)
-  @RequirePermissions(Permissions.USER)
+  @RequirePermissions(Permissions.USER, Permissions.ADMIN)
   @Mutation(() => Task, { nullable: true })
   updateTask(
     @Args('updateTaskInput') updateTaskInput: UpdateTaskInput,
@@ -86,7 +88,7 @@ export class TaskResolver {
   }
 
   @UseGuards(GqlAuthGuard, RequirePermissionsGuard)
-  @RequirePermissions(Permissions.USER)
+  @RequirePermissions(Permissions.USER, Permissions.ADMIN)
   @Mutation(() => Boolean, { nullable: true })
   removeTask(
     @Args('id', { type: () => String }) id: string,
