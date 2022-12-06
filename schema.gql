@@ -31,15 +31,38 @@ enum TaskStatus {
   Archived
 }
 
+type User {
+  """UUID"""
+  id: String!
+
+  """Username"""
+  username: String!
+
+  """Password"""
+  password: String
+}
+
+type AccesToken {
+  """Access Token"""
+  access_token: String
+}
+
 type Query {
   tasks: [Task!]
   task(id: String!): Task
+  login(username: String!, password: String!): AccesToken
+  whoAmI: User!
+  users: [User!]!
+  user(id: String!): User!
 }
 
 type Mutation {
   createTask(createTaskInput: CreateTaskInput!): Task!
   updateTask(updateTaskInput: UpdateTaskInput!): Task
   removeTask(id: String!): Boolean
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: String!): User!
 }
 
 input CreateTaskInput {
@@ -65,4 +88,23 @@ input UpdateTaskInput {
 
   """Current Status"""
   status: TaskStatus
+}
+
+input CreateUserInput {
+  """Username"""
+  username: String!
+
+  """Password"""
+  password: String!
+}
+
+input UpdateUserInput {
+  """Id"""
+  id: ID!
+
+  """Username"""
+  username: String!
+
+  """Password"""
+  password: String!
 }

@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TaskService } from './task.service';
 import { Task, TaskStatus } from './entities/task.entity';
 import { Any, Repository } from 'typeorm';
-import { TaskRepository } from './repositories/task.repository';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
 const mockRepository = {
@@ -23,7 +22,7 @@ export const repositoryMockFactory: () => Task<Repository<any>> = jest.fn(
 
 describe('TaskService', () => {
   let service: TaskService;
-  let repository: TaskRepository;
+  let repository: Repository<Task>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
