@@ -46,6 +46,7 @@ configuration. You need to do it because I failed to Dockerize it.
 Then:
  - $ yarn
  - $ yarn migration:run
+ - $ yarn build
  - $ yarn start:dev
 
 This shall suffice, you may now proceed to visit  http://localhost:3030/graphql
