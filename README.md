@@ -1,73 +1,190 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Every.io engineering challenge
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+### Challenge link: https://github.com/every-io/engineering-interivew-be
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+-----
 
-## Description
+I am submitting in a unlinked repo so my code won't be available
+to others candidates
+I tried my best with the time I got, here's a summary:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+```
+Requirements
+ [X] - Tasks with Title, Description and Status that has 4 different states
+ [X] - Authentication
+ [X] - Authorization
 
-## Installation
-
-```bash
-$ npm install
+ Ideal
+ [X] - Typescript
+ [X] - Tests
+ [ ] - Dockerized Application
+ 
+ Extra credit
+ [X] - Apollo Server Graphql
+ [X] - Logging
 ```
 
-## Running the app
+## Instructions
 
-```bash
-# development
-$ npm run start
+You must have postgres installation readly and create a database for the project.
 
-# watch mode
-$ npm run start:dev
+You must provide on your _.env_ file information about this database, as well as an 
+user credentials to access it. I commited it with data. Replace it with yours 
+configuration. You need to do it because I failed to Dockerize it.
 
-# production mode
-$ npm run start:prod
+Then:
+ - $ yarn
+ - $ yarn migration:run
+ - $ yarn start:dev
+
+This shall suffice, you may now proceed to visit  http://localhost:3030/graphql
+
+Please, do not forget to also visit http://localhost:3030/log/info to check out
+some fine logging capabilities.
+
+Now you are ready to load-up your Playground with some Mutations & Queries.
+Please check each of them. The createUser mutation is public. The others will ask
+for an Authorization Token that you receive at every login. 
+
+You need to provide it in your HTTP Header like in the following example:
+```
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFuZHJlIiwic3ViIjoiYWY3YWNiODctMTNlOC00NTkwLTgyNmQtOTliYjA1ZWYyMTcyIiwicGVybWlzc2lvbnMiOiJBRE1JTiIsImlhdCI6MTY3MDM1OTQxNiwiZXhwIjoxNjcwMzU5NDc2fQ.KlU9wkHqkxAR9qufIL59BUs5KTmZr3OpOaZdMD6sIUk"
+}
 ```
 
-## Test
+You need an User do login and an User can have regular User permissions or Admin 
+permission. Some Mutations and Queries will ask for Admin permission.
 
-```bash
-# unit tests
-$ npm run test
+Mutations and Queries:
 
-# e2e tests
-$ npm run test:e2e
+```
+query whoAmI {
+  whoAmI {
+    id
+    username
+  }
+}
 
-# test coverage
-$ npm run test:cov
+mutation createJonesUser {
+  createUser(
+    createUserInput: {
+      username: "jones",
+      password: "bro",
+      permissions: USER
+    }
+  ) {
+    id
+    username
+  }
+}
+
+mutation createAndreUser {
+  createUser(
+    createUserInput: {
+      username: "andre",
+      password: "pass",
+      permissions: ADMIN
+    }
+  ) {
+    id
+    username
+  }
+}
+
+query loginJones {
+  login(username: "jones", password: "bro") {
+    access_token
+  }
+}
+
+query loginAndre {
+  login(username: "andre", password: "pass") {
+    access_token
+  }
+}
+
+query myTasks {
+  myTasks {
+    id
+    title
+    status
+    user {
+      username
+    }
+  }
+}
+
+mutation createTask {
+  createTask(
+    createTaskInput: {
+      title: "Teste 3",
+      description: "Desc",
+      status: Inprogress,
+    }
+  ) {
+    id
+    title
+    description
+    status
+    __typename
+  }
+}
+
+mutation updateTask {
+  updateTask(
+    updateTaskInput: { 
+      id: "956d9a85-43cd-4937-8bf3-b20c3747940c", 
+      title: "Jones test",
+      status: Done,
+    }
+  ) {
+    id
+    title
+    description
+    status
+  }
+}
+
+mutation removeTask {
+  removeTask(id: "4f89700a-31be-4db4-8d28-c6870aa639b0")
+}
+
+query allTasks {
+  tasks {
+    id
+    title
+    description
+    status
+    user {
+      username
+    }
+  }
+}
+
+query task {
+  task(id: "3633fbb9-6a63-45b8-b776-5004721d3efd") {
+    id
+    title
+    description
+    status
+  }
+}
+
 ```
 
-## Support
+ Devlog details on what is missing:
+  - I am getting an error on #docker composer up command and the time is 
+  finishing up so that's the reason this project is not Dockerized.
+  - Right now I remembered about eager parameter, that is certainly
+  what I should have done to save a query on task.service.ts
+  - I made Logging feature but almost did not used it, we have it in maybe
+  like 3 places? Just to show it works but this is not enough ok.
+  - Must write UT tests to cover recent changes
+  - End-to-end tests would be good
+  - We also lack safe login and need to only store salted passwords
+  - It looks like the logging endpoint at http://localhost:3030/log/info
+  does not update in real-time. You must refresh to get new contents. This
+  is a bug.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+##### done with love by André Mendes - (andre@mendesc.com)
