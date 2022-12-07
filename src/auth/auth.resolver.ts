@@ -11,7 +11,7 @@ import { LoggerFactory } from '../logger';
 @Resolver(() => User)
 export class AuthResolver {
   private logger: any = LoggerFactory.getInstance();
-  
+
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,

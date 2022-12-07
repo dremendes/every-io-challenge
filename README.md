@@ -24,6 +24,17 @@ Requirements
  [X] - Logging
 ```
 
+## Coverage Report 
+```
+=============================== Coverage summary ===============================
+Statements   : 68.27% ( 738/1081 )
+Branches     : 68% ( 34/50 )
+Functions    : 26.41% ( 28/106 )
+Lines        : 68.27% ( 738/1081 )
+================================================================================
+```
+##### visit ./every-io-challenge/coverage/lcov-report/index.html for more
+
 ## Instructions
 
 You must have postgres installation readly and create a database for the project.
