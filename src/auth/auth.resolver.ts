@@ -6,9 +6,12 @@ import { AuthService } from './auth.service';
 import { CurrentUser } from './current-user.decorator';
 import { GqlAuthGuard } from './gql-auth.guard';
 import { AccesToken } from './acces-token.entity';
+import { LoggerFactory } from '../logger';
 
 @Resolver(() => User)
 export class AuthResolver {
+  private logger: any = LoggerFactory.getInstance();
+
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
@@ -19,9 +22,11 @@ export class AuthResolver {
     @Args('username', { type: () => String }) username: string,
     @Args('password', { type: () => String }) password: string,
   ) {
-    return this.authService.login(
-      await this.authService.validateUser(username, password),
-    );
+    const user = await this.authService.validateUser(username, password);
+
+    this.logger.info(`User ${user.username} just logged in`);
+
+    return this.authService.login(user);
   }
 
   @Query(() => User)

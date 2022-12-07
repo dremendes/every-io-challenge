@@ -17,7 +17,10 @@ export class TaskService {
     private userRepository: Repository<User>,
   ) {}
 
-  async create(createTaskInput: CreateTaskInput | CreateTaskAdminInput, userId: string) {
+  async create(
+    createTaskInput: CreateTaskInput | CreateTaskAdminInput,
+    userId: string,
+  ) {
     if (userId === null) {
       const result = await this.taskRepository.create(createTaskInput);
 

@@ -11,5 +11,4 @@ export class CreateTaskInput {
 
   @Field(() => TaskStatus, { description: 'Current Task status' })
   status: TaskStatus;
-
 }

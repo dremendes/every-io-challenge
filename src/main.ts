@@ -13,7 +13,7 @@ async function bootstrap() {
   });
   await app.listen(port);
   const startupMessage = `Every io challenge: listening on port ${port}\n
-      GraphQl Playground: /playground
+      GraphQl Playground: /graphql
       Process ID: ${process.pid}`;
 
   logger.info(startupMessage);
