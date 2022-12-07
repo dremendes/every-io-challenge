@@ -4,9 +4,7 @@
 
 -----
 
-I am submitting in a unlinked repo so my code won't be available
-to others candidates
-I tried my best with the time I got, here's a summary:
+Here's a summary:
 
 ```
 Requirements
